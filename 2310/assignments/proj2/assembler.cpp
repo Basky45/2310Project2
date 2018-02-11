@@ -8,9 +8,9 @@
 */
 #include <string>
 #include <iostream>
+#include <map>
 
 
-/*
 #define ICONST_M1 2             // push -1 onto stack
 #define ICONST_0 3              // push 0 onto stack
 #define ICONST_1 4              // push 1 onto stack
@@ -51,7 +51,20 @@
 #define IFLT 155                // iflt <label>, if <  0, goto <label>
 #define IFNE 154                // ifne <label>, if != 0, goto <label>
 #define GOTO 167                // goto <label>
-*/
+
+#define JSR 168			/* jump to subroutine <label> */
+#define RET 169			/* return from subroutine */
+
+#define INVOKEVIRTUAL 182       /* method call specialized to call */
+                                /* System.out.println with a local */
+                                /* variable as argument */
+#define PRINT 1                 /* argument for System.out.print */
+#define PRINTLN 2               /* argument for System.out.println */
+#define RETURN 177              /* return from method */
+
+#define MEMORY_SIZE 1000
+#define STACK_SIZE 10
+#define LOCAL_VARIABLE_SIZE 10
 
 
 
