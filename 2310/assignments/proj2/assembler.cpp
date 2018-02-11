@@ -72,8 +72,53 @@ using namespace std;
 
 int main(){
 
-  //create map for commands??
 
+
+  map<string,int> opCodeMap;
+  map<string, int> symbolTable;
+  //create map for commands
+  map["iconst_m1"] = 2;
+  map["iconst_0"] = 3;
+  map["iconst_1"] = 4;
+  map["iconst_2"] = 5;
+  map["iconst_3"] = 6;
+  map["iconst_4"] = 7;
+  map["iconst_5"] = 8;
+  map["bipush"] = 16;
+  map["iload_0"] = 26;
+  map["iload_1"] = 27;
+  map["iload_2"] = 28;
+  map["iload_3"] = 29;
+  map["iload"] = 21;
+  map["istore_0"] = 59;
+  map["istore_1"] = 60;
+  map["istore_2"] = 61;
+  map["istore_3"] = 62;
+  map["istore"] = 54;
+  map["pop"] = 87;
+  map["swap"] = 95;
+  map["dup"] = 89;
+  map["iadd"] = 96;
+  map["isub"] = 100;
+  map["imul"] = 104;
+  map["idiv"] = 108;
+  map["irem"] = 112;
+  map["ineg"] = 116;
+  map["iinc"] = 132;
+  map["ifeq"] = 153;
+  map["ifne"] = 154;
+  map["iflt"] = 155;
+  map["ifge"] = 156;
+  map["ifgt"] = 157;
+  map["ifle"] = 158;
+  map["goto"] = 167;
+  map["jsr"] = 168;
+  map["ret"] = 169;
+  map["invokevirtual"] = 182;
+  map["print"] = 1;
+  map["println"] = 2;
+  map["return"] = 177;
+  
   //pass 1
   int location = 0;
   bool done = false;
