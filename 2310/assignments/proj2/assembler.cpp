@@ -8,6 +8,7 @@
 */
 #include <string>
 #include <iostream>
+#include <fstream>
 #include <map>
 
 
@@ -70,76 +71,97 @@
 
 using namespace std;
 
-int main(){
-
-
+int main(int argc, char **argv){
 
   map<string,int> opCodeMap;
   map<string, int> symbolTable;
-  //create map for commands
-  map["iconst_m1"] = 2;
-  map["iconst_0"] = 3;
-  map["iconst_1"] = 4;
-  map["iconst_2"] = 5;
-  map["iconst_3"] = 6;
-  map["iconst_4"] = 7;
-  map["iconst_5"] = 8;
-  map["bipush"] = 16;
-  map["iload_0"] = 26;
-  map["iload_1"] = 27;
-  map["iload_2"] = 28;
-  map["iload_3"] = 29;
-  map["iload"] = 21;
-  map["istore_0"] = 59;
-  map["istore_1"] = 60;
-  map["istore_2"] = 61;
-  map["istore_3"] = 62;
-  map["istore"] = 54;
-  map["pop"] = 87;
-  map["swap"] = 95;
-  map["dup"] = 89;
-  map["iadd"] = 96;
-  map["isub"] = 100;
-  map["imul"] = 104;
-  map["idiv"] = 108;
-  map["irem"] = 112;
-  map["ineg"] = 116;
-  map["iinc"] = 132;
-  map["ifeq"] = 153;
-  map["ifne"] = 154;
-  map["iflt"] = 155;
-  map["ifge"] = 156;
-  map["ifgt"] = 157;
-  map["ifle"] = 158;
-  map["goto"] = 167;
-  map["jsr"] = 168;
-  map["ret"] = 169;
-  map["invokevirtual"] = 182;
-  map["print"] = 1;
-  map["println"] = 2;
-  map["return"] = 177;
-  
+  //create opCodeMap for commands
+  opCodeMap["iconst_m1"] = 2;
+  opCodeMap["iconst_0"] = 3;
+  opCodeMap["iconst_1"] = 4;
+  opCodeMap["iconst_2"] = 5;
+  opCodeMap["iconst_3"] = 6;
+  opCodeMap["iconst_4"] = 7;
+  opCodeMap["iconst_5"] = 8;
+  opCodeMap["bipush"] = 16;
+  opCodeMap["iload_0"] = 26;
+  opCodeMap["iload_1"] = 27;
+  opCodeMap["iload_2"] = 28;
+  opCodeMap["iload_3"] = 29;
+  opCodeMap["iload"] = 21;
+  opCodeMap["istore_0"] = 59;
+  opCodeMap["istore_1"] = 60;
+  opCodeMap["istore_2"] = 61;
+  opCodeMap["istore_3"] = 62;
+  opCodeMap["istore"] = 54;
+  opCodeMap["pop"] = 87;
+  opCodeMap["swap"] = 95;
+  opCodeMap["dup"] = 89;
+  opCodeMap["iadd"] = 96;
+  opCodeMap["isub"] = 100;
+  opCodeMap["imul"] = 104;
+  opCodeMap["idiv"] = 108;
+  opCodeMap["irem"] = 112;
+  opCodeMap["ineg"] = 116;
+  opCodeMap["iinc"] = 132;
+  opCodeMap["ifeq"] = 153;
+  opCodeMap["ifne"] = 154;
+  opCodeMap["iflt"] = 155;
+  opCodeMap["ifge"] = 156;
+  opCodeMap["ifgt"] = 157;
+  opCodeMap["ifle"] = 158;
+  opCodeMap["goto"] = 167;
+  opCodeMap["jsr"] = 168;
+  opCodeMap["ret"] = 169;
+  opCodeMap["invokevirtual"] = 182;
+  opCodeMap["print"] = 1;
+  opCodeMap["println"] = 2;
+  opCodeMap["return"] = 177;
+
   //pass 1
   int location = 0;
+  int pc = 0;
   bool done = false;
   bool error = false;
+  ifstream inputFile;
+  inputFile.open(argv[1]);  // ?????
+  string command;
   while(!done && !error){
     //read statement & parse input
-    int command;
-    switch(command){
-      case comment:
-        //do nothing
-        break;
-      case LABEL:
-        //add parameter to symbol table with location
-        break;
-      case OTHER:
-        // multiple for all opcodes
-        location++; // maybe location += 2;
-        break;
-      default:
-        error = true;
-        cout << "unknown opcode mnemonics" << endl;
+    inputFile >> command;
+    if(command.find("label")){
+      int endLoc = command.find(")");
+      symbolTable[command.substr(6,endLoc-1)] = pc;
     }
+    else if(!command.compare("iinc"))
+      pc += 3;
+    else if(!command.compare("bipush") || !command.compare("iload") ||
+      !command.compare("istore") || !command.compare("ifeq") ||
+      !command.compare("ifge") || !command.compare("ifgt") || !command.compare("ifle")
+      || !command.compare("iflt") || !command.compare("ifne") ||
+      !command.compare("goto") || !command.compare("invokevirtual")){
+      pc += 2;
+    }
+    else
+      pc++;
   }
+  for(auto it = symbolTable.cbegin(); it != symbolTable.end(); it++){
+    cout << it->first << "\t" << it->second << endl;
+  }
+  // switch(opCodeopCodeMap[command]){
+  //   case comment:
+  //   //do nothing
+  //   break;
+  //   case LABEL:
+  //   //add parameter to symbol table with location
+  //   break;
+  //   case OTHER:
+  //   // multiple for all opcodes
+  //   location++; // maybe location += 2;
+  //   break;
+  //   default:
+  //   error = true;
+  //   cout << "unknown opcode mnemonics" << endl;
+  //}
+  //reset input file
 }
