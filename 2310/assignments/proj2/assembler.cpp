@@ -119,27 +119,37 @@ int main(int argc, char **argv){
   opCodeMap["return"] = 177;
 
   //pass 1
-  int location = 0;
+  //int location = 0;
   int pc = 0;
   bool done = false;
   bool error = false;
   ifstream inputFile;
   inputFile.open(argv[1]);  // ?????
   string command;
-  while(!done && !error){
+  while(!done && !error && !inputFile.eof()){
     //read statement & parse input
     inputFile >> command;
-    if(command.find("label")){
-      int endLoc = command.find(")");
-      symbolTable[command.substr(6,endLoc-1)] = pc;
+    if(command.find("comment") == 0)
+      //skip rest of line
+      getline(inputFile, command);
+    else if(command.find("label") == 0){
+      //cout << command << endl;
+      //int endLoc = command.find(")")-1;
+      symbolTable[command.substr(6,command.length()-7)] = pc;
     }
-    else if(!command.compare("iinc"))
+    else if(!command.substr(0,4).compare("iinc"))
       pc += 3;
-    else if(!command.compare("bipush") || !command.compare("iload") ||
-      !command.compare("istore") || !command.compare("ifeq") ||
-      !command.compare("ifge") || !command.compare("ifgt") || !command.compare("ifle")
-      || !command.compare("iflt") || !command.compare("ifne") ||
-      !command.compare("goto") || !command.compare("invokevirtual")){
+    else if(!command.substr(0,6).compare("bipush") ||
+            !command.substr(0,6).compare("iload(") ||
+            !command.substr(0,7).compare("istore(") ||
+            !command.substr(0,4).compare("ifeq") ||
+            !command.substr(0,4).compare("ifge") ||
+            !command.substr(0,4).compare("ifgt") ||
+            !command.substr(0,4).compare("ifle") ||
+            !command.substr(0,4).compare("iflt") ||
+            !command.substr(0,4).compare("ifne") ||
+            !command.substr(0,4).compare("goto") ||
+            !command.substr(0,13).compare("invokevirtual")){
       pc += 2;
     }
     else

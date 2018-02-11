@@ -3,6 +3,7 @@ bipush(-40)
 bipush(-40)
 istore_0
 istore_1 comment(` Store -40 in registers 0 and 1 ')
+iinc(1,1)
 label(loop)
 iconst_0
 invokevirtual(1) comment(` Print the value at register 0 ')
