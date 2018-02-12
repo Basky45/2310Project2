@@ -152,8 +152,22 @@ int main(int argc, char **argv){
             !command.substr(0,13).compare("invokevirtual")){
       pc += 2;
     }
-    else
+    //still need to add jsr and ret 
+    else if(!command.substr(0,7).compare("iconst_") ||
+            !command.substr(0,6).compare("iload_") ||
+            !command.substr(0,7).compare("istore_") ||
+            !command.substr(0,3).compare("pop") ||
+            !command.substr(0,4).compare("swap") || 
+            !command.substr(0,3).compare("dup") ||
+            !command.substr(0,4).compare("iadd") ||
+            !command.susbtr(0,4).compare("isub") ||
+            !command.substr(0,4).compare("imul") ||
+            !command.substr(0,4).compare("idiv") ||
+            !command.substr(0,4).compare("irem") ||
+            !command.substr(0,4).compare("ineg") ||
+            !command.substr(0,6).compare("return"))}
       pc++;
+    }
   }
   for(auto it = symbolTable.cbegin(); it != symbolTable.end(); it++){
     cout << it->first << "\t" << it->second << endl;
