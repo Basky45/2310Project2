@@ -121,12 +121,12 @@ int main(int argc, char **argv){
   //pass 1
   //int location = 0;
   int pc = 0;
-  bool done = false;
+  //bool done = false;
   bool error = false;
   ifstream inputFile;
   inputFile.open(argv[1]);  // ?????
   string command;
-  while(!done && !error && !inputFile.eof()){
+  while(/*!done &&*/ !error && !inputFile.eof()){
     //read statement & parse input
     inputFile >> command;
     if(command.find("comment") == 0)
@@ -160,12 +160,12 @@ int main(int argc, char **argv){
             !command.substr(0,4).compare("swap") || 
             !command.substr(0,3).compare("dup") ||
             !command.substr(0,4).compare("iadd") ||
-            !command.susbtr(0,4).compare("isub") ||
+            !command.substr(0,4).compare("isub") ||
             !command.substr(0,4).compare("imul") ||
             !command.substr(0,4).compare("idiv") ||
             !command.substr(0,4).compare("irem") ||
             !command.substr(0,4).compare("ineg") ||
-            !command.substr(0,6).compare("return"))}
+            !command.substr(0,6).compare("return")){
       pc++;
     }
   }
