@@ -123,7 +123,7 @@ int main(int argc, char **argv){
   int pc = 0;
   bool error = false;
   ifstream inputFile;
-  inputFile.open(argv[1]); 
+  inputFile.open(argv[1]);
   string command;
   // pass 1: parse input and add labels to symbol table at correct pc
   while(!error && !inputFile.eof()){
@@ -151,12 +151,12 @@ int main(int argc, char **argv){
             !command.substr(0,13).compare("invokevirtual")){
       pc += 2;
     }
-    //still need to add jsr and ret 
+    //still need to add jsr and ret
     else if(!command.substr(0,7).compare("iconst_") ||
             !command.substr(0,6).compare("iload_") ||
             !command.substr(0,7).compare("istore_") ||
             !command.substr(0,3).compare("pop") ||
-            !command.substr(0,4).compare("swap") || 
+            !command.substr(0,4).compare("swap") ||
             !command.substr(0,3).compare("dup") ||
             !command.substr(0,4).compare("iadd") ||
             !command.substr(0,4).compare("isub") ||
@@ -174,10 +174,10 @@ int main(int argc, char **argv){
     }
   }
   #if DEBUG
-    // print symbol table while testing 
+    // print symbol table while testing
     for(auto it = symbolTable.cbegin(); it != symbolTable.end(); it++){
       cout << it->first << "\t" << it->second << endl;
-    }  
+    }
   #endif
 
   //reset vars before pass 2
@@ -238,7 +238,7 @@ int main(int argc, char **argv){
       cout << 29 << endl;
       pc++;
     }
-    else if(!command.substr(0,5).compare("iload")){
+    else if(!command.substr(0,6).compare("iload(")){
       cout << 21 << "\t" << command.substr(6,command.length()-7) << endl;
       pc += 2;
     }
@@ -254,7 +254,100 @@ int main(int argc, char **argv){
       cout << 61 << endl;
       pc++;
     }
-    
+    else if(!command.substr(0,8).compare("istore_3")){
+      cout << 62 << endl;
+      pc++;
+    }
+    else if(!command.substr(0,8).compare("istore_4")){
+      cout << 61 << endl;
+      pc++;
+    }
+    else if(!command.substr(0,7).compare("istore(")){
+      cout << 54 << "\t" << command.substr(7,command.length()-8) << endl;
+      pc += 2;
+    }
+    else if(!command.substr(0,3).compare("pop")){
+      cout << 87 << endl;
+      pc++;
+    }
+    else if(!command.substr(0,4).compare("swap")){
+      cout << 95 << endl;
+      pc++;
+    }
+    else if(!command.substr(0,3).compare("dup")){
+      cout << 89 << endl;
+      pc++;
+    }
+    else if(!command.substr(0,4).compare("iadd")){
+      cout << 96 << endl;
+      pc++;
+    }
+    else if(!command.substr(0,4).compare("isub")){
+      cout << 100 << endl;
+      pc++;
+    }
+    else if(!command.substr(0,4).compare("imul")){
+      cout << 104 << endl;
+      pc++;
+    }
+    else if(!command.substr(0,4).compare("idiv")){
+      cout << 108 << endl;
+      pc++;
+    }
+    else if(!command.substr(0,4).compare("irem")){
+      cout << 112 << endl;
+      pc++;
+    }
+    else if(!command.substr(0,4).compare("ineg")){
+      cout << 116 << endl;
+      pc++;
+    }
+    else if(!command.substr(0,4).compare("iinc")){
+      cout << 132 << "\t" << command.substr(4,command.length()-5)
+      << "\t" << command.substr(6, command.length()-7)<< endl;
+      pc+=3;
+    }
+    else if(!command.substr(0,4).compare("ifeq")){
+      cout << 153 << "\t" <<
+      (pc-symbolTable[command.substr(4,command.length()-5)]) << endl;
+      pc+=2;
+    }
+    else if(!command.substr(0,4).compare("ifge")){
+      cout << 156 << "\t" <<
+      (pc-symbolTable[command.substr(4,command.length()-5)]) << endl;
+      pc+=2;
+    }
+    else if(!command.substr(0,4).compare("ifgt")){
+      cout << 157 << "\t" <<
+      (pc-symbolTable[command.substr(4,command.length()-5)]) << endl;
+      pc+=2;
+    }
+    else if(!command.substr(0,4).compare("ifle")){
+      cout << 158 << "\t" <<
+      (pc-symbolTable[command.substr(4,command.length()-5)]) << endl;
+      pc+=2;
+    }
+    else if(!command.substr(0,4).compare("ifne")){
+      cout << 154 << "\t" <<
+      (pc-symbolTable[command.substr(4,command.length()-5)]) << endl;
+      pc+=2;
+    }
+    else if(!command.substr(0,4).compare("goto")){
+      cout << 167 << "\t" <<
+      (pc-symbolTable[command.substr(4,command.length()-5)]) << endl;
+      pc+=2;
+    }
+    else if(!command.substr(0,13).compare("invokevirtual")){
+      cout << 182 << "\t" << command.substr(14, command.length()-15) << endl;
+      pc+=2;
+    }
+    else if(!command.substr(0,6).compare("return")){
+      cout << 177 << endl;
+      pc++;
+    }
+
+
+
    // continue long else if for each possible command
   }
 
