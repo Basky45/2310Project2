@@ -11,6 +11,7 @@
 #include <fstream>
 #include <map>
 
+#define DEBUG true
 
 #define ICONST_M1 2             // push -1 onto stack
 #define ICONST_0 3              // push 0 onto stack
@@ -119,22 +120,20 @@ int main(int argc, char **argv){
   opCodeMap["return"] = 177;
 
   //pass 1
-  //int location = 0;
   int pc = 0;
-  //bool done = false;
   bool error = false;
   ifstream inputFile;
-  inputFile.open(argv[1]);  // ?????
+  inputFile.open(argv[1]); 
   string command;
-  while(/*!done &&*/ !error && !inputFile.eof()){
+  // pass 1: parse input and add labels to symbol table at correct pc
+  while(!error && !inputFile.eof()){
     //read statement & parse input
     inputFile >> command;
     if(command.find("comment") == 0)
       //skip rest of line
       getline(inputFile, command);
     else if(command.find("label") == 0){
-      //cout << command << endl;
-      //int endLoc = command.find(")")-1;
+      //add only the label to the symbol table at the current pc counter
       symbolTable[command.substr(6,command.length()-7)] = pc;
     }
     else if(!command.substr(0,4).compare("iinc"))
@@ -168,10 +167,32 @@ int main(int argc, char **argv){
             !command.substr(0,6).compare("return")){
       pc++;
     }
+    // if not placed, command unknown - quit loop.
+    else{
+      cout << "error: unknown command" << endl;
+      error = true;
+    }
   }
-  for(auto it = symbolTable.cbegin(); it != symbolTable.end(); it++){
-    cout << it->first << "\t" << it->second << endl;
+  #if DEBUG
+    // print symbol table while testing 
+    for(auto it = symbolTable.cbegin(); it != symbolTable.end(); it++){
+      cout << it->first << "\t" << it->second << endl;
+    }  
+  #endif
+
+  //reset vars before pass 2
+  pc = 0;
+  inputFile.close();
+  inputFile.open(argv[1]);
+
+  //pass 2: parse commands and print opcodes and addresses to file (do not include pc)
+  while(!error && !inputFile.eof()){
+    inputFile >> command;
+    if(command.find("comment") == 0)
+      getLine(inputFile, command);
+    else if(false) // continue long else if for each possible command
   }
+
   // switch(opCodeopCodeMap[command]){
   //   case comment:
   //   //do nothing
