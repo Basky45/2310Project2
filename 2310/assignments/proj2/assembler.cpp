@@ -189,8 +189,73 @@ int main(int argc, char **argv){
   while(!error && !inputFile.eof()){
     inputFile >> command;
     if(command.find("comment") == 0)
-      getLine(inputFile, command);
-    else if(false) // continue long else if for each possible command
+      getline(inputFile, command);
+    else if(!command.substr(0,9).compare("iconst_m1")){
+      cout << 2 << endl;
+      pc++;
+    }
+    else if(!command.substr(0,8).compare("iconst_0")){
+      cout << 3 << endl;
+      pc++;
+    }
+    else if(!command.substr(0,8).compare("iconst_1")){
+      cout << 4 << endl;
+      pc++;
+    }
+    else if(!command.substr(0,8).compare("iconst_2")){
+      cout << 5 << endl;
+      pc++;
+    }
+    else if(!command.substr(0,8).compare("iconst_3")){
+      cout << 6 << endl;
+      pc++;
+    }
+    else if(!command.substr(0,8).compare("iconst_4")){
+      cout << 7 << endl;
+      pc++;
+    }
+    else if(!command.substr(0,8).compare("iconst_5")){
+      cout << 8 << endl;
+      pc++;
+    }
+    else if(!command.substr(0,6).compare("bipush")){
+      cout << 16 << "\t" << command.substr(7,command.length()-8) << endl;
+      pc += 2;
+    }
+    else if(!command.substr(0,7).compare("iload_0")){
+      cout << 26 << endl;
+      pc++;
+    }
+    else if(!command.substr(0,7).compare("iload_1")){
+      cout << 27 << endl;
+      pc++;
+    }
+    else if(!command.substr(0,7).compare("iload_2")){
+      cout << 28 << endl;
+      pc++;
+    }
+    else if(!command.substr(0,7).compare("iload_3")){
+      cout << 29 << endl;
+      pc++;
+    }
+    else if(!command.substr(0,5).compare("iload")){
+      cout << 21 << "\t" << command.substr(6,command.length()-7) << endl;
+      pc += 2;
+    }
+    else if(!command.substr(0,8).compare("istore_0")){
+      cout << 59 << endl;
+      pc++;
+    }
+    else if(!command.substr(0,8).compare("istore_1")){
+      cout << 60 << endl;
+      pc++;
+    }
+    else if(!command.substr(0,8).compare("istore_2")){
+      cout << 61 << endl;
+      pc++;
+    }
+    
+   // continue long else if for each possible command
   }
 
   // switch(opCodeopCodeMap[command]){
