@@ -1,26 +1,32 @@
+comment(`Andrew Sanborn')
+comment(`Spring 2018')
+comment(`CPSC 2310, lab 003')
+comment(`Lab 2: prints a table of equivalent Celsius and Fahrenheit values')
 
 bipush(-40)
-bipush(-40)
-istore_0
-istore_1 comment(` Store -40 in registers 0 and 1 ')
-iinc(1,1)
-label(loop)
-iconst_0
-invokevirtual(1) comment(` Print the value at register 0 ')
-iload_0
-label(begin)
-bipush(10)
-iadd comment(` Add the value at register 0 and the value 10 ')
-istore_0
-iconst_1
-invokevirtual(2) comment(` Print the value at register 1 ')
-iload_1
-bipush(18)
-iadd comment(` Add the value at register 1 and the value 18 ')
-label(end)
 istore_1
-bipush(120)
-iload_0
-isub
-ifge(loop) comment(` Subtract 120 from the value at register 0 to check to loop ')
+bipush(-40)
+istore_2
+label(loop)
+  iconst_1           comment(`  print C ')
+  invokevirtual(1)
+
+  iconst_2           comment(`  print F ')
+  invokevirtual(2)
+
+  iload_1            comment(` C += 10 ')
+  bipush(10)
+  iadd
+  istore_1
+
+  iload_2            comment(` F += 18 ')
+  bipush(18)
+  iadd
+  istore_2
+
+  iload_1           comment(` while(C <= 120) ')
+  bipush(120)
+  isub
+  ifle(loop)
+
 return
